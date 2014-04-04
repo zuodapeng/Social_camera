@@ -23,6 +23,8 @@ iso_options = ['iso-800', 'iso-400', 'iso-200', 'iso-100', 'auto']
 selftimer_options = ['0', '3', '5', '10']
 videosize_options = ['SD', 'HD', 'HDHS', 'FullHD', 'FullHDHS']
 
+MAX_SETTINGS_IN_A_SCREEN = 7
+
 dict_for_panaroma_settings_options = {
     panaroma_settings[0]: geo_options,
     panaroma_settings[1]: expo_options,
@@ -120,13 +122,13 @@ class CameraTest(unittest.TestCase):
     def _setCameraMode(self, mode, setting, option):
         d(description='Camera settings').click.wait()
         print dict_for_settings.get(mode).index(setting)
-        if dict_for_settings.get(mode).index(setting) < 7:
+        if dict_for_settings.get(mode).index(setting) < MAX_SETTINGS_IN_A_SCREEN:
             print 'if'
             d(resourceId="com.intel.camera22:id/hori_list_button")[dict_for_settings.get(mode).index(setting)].click.wait()
             print len(dict_for_settings.get(mode))
             print dict_for_options.get(mode).get(setting).index(option)
-            if len(dict_for_settings.get(mode)) > 7:
-                d(resourceId="com.intel.camera22:id/hori_list_button")[7 + dict_for_options.get(mode).get(setting).index(option)].click.wait()
+            if len(dict_for_settings.get(mode)) > MAX_SETTINGS_IN_A_SCREEN:
+                d(resourceId="com.intel.camera22:id/hori_list_button")[MAX_SETTINGS_IN_A_SCREEN + dict_for_options.get(mode).get(setting).index(option)].click.wait()
             else:
                 d(resourceId="com.intel.camera22:id/hori_list_button")[len(dict_for_settings.get(mode)) + dict_for_options.get(mode).get(setting).index(option)].click.wait()
 
@@ -136,8 +138,8 @@ class CameraTest(unittest.TestCase):
             d.swipe(640,180,100,180,steps=10)
             print dict_for_settings.get(mode).index(setting)
             print len(dict_for_settings.get(mode))
-            d(resourceId="com.intel.camera22:id/hori_list_button")[dict_for_settings.get(mode).index(setting) - (len(dict_for_settings.get(mode)) - 7)].click.wait()
-            d(resourceId="com.intel.camera22:id/hori_list_button")[7 + dict_for_options.get(mode).get(setting).index(option)].click.wait()
+            d(resourceId="com.intel.camera22:id/hori_list_button")[dict_for_settings.get(mode).index(setting) - (len(dict_for_settings.get(mode)) - MAX_SETTINGS_IN_A_SCREEN)].click.wait()
+            d(resourceId="com.intel.camera22:id/hori_list_button")[MAX_SETTINGS_IN_A_SCREEN + dict_for_options.get(mode).get(setting).index(option)].click.wait()
         
 
         print dict_for_settings_keys.get(setting)
